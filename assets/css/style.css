@@ -694,7 +694,7 @@ small {
 }
 
 #places-travelled .container {
-  width: 95%;
+  width: 100%;
   padding: 0;
 }
 
@@ -704,17 +704,4 @@ small {
 
 #places-travelled iframe {
   margin-bottom: 20px;
-}
-
-#places-travelled .card {
-  height: 200px;
-}
-
-#places-travelled .card-content {
-  padding: 20px;
-}
-
-#places-travelled .card-title {
-  font-size: 18px;
-  font-weight: bold;
 }
