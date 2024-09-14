@@ -692,3 +692,29 @@ small {
     background-position-x: 30%;
   }
 }
+
+#places-travelled .container {
+  width: 95%;
+  padding: 0;
+}
+
+#places-travelled .col.s12 {
+  padding: 0;
+}
+
+#places-travelled iframe {
+  margin-bottom: 20px;
+}
+
+#places-travelled .card {
+  height: 200px;
+}
+
+#places-travelled .card-content {
+  padding: 20px;
+}
+
+#places-travelled .card-title {
+  font-size: 18px;
+  font-weight: bold;
+}
