@@ -349,80 +349,105 @@
       <h3 class="page-title white-text teal">Projects</h3>
       <div class="container">
         <div class="row">
-
-          <div class="col s12 m6 l4">
-            <div class="card medium">
-              <div class="card-image waves-effect waves-block waves-light">
-                <img alt="music streaming app" src="/assets/img/personal-web.png" style="height: 100%; width: 100%" class="activator" />
-              </div>
-              <div class="card-content">
-                <span class="card-title activator teal-text hoverline">Personal Website<i
-                    class="mdi-navigation-more-vert right"></i></span>
-                <p>
-                  Personal website made using HTML and CSS
-                </p>
-              </div>
-              <div class="card-reveal">
-                <!-- TODO: change this -- only close button -->
-                <!-- <span class="card-title brown-text">Accomplishments<i class="mdi-navigation-close right"></i></span> -->
-                <span class="card-title grey-text"><small>Accomplishments</small><i
-                    class="mdi-navigation-close right"></i></span>
-                <ul>
-                  <li>Designed and programmed a personal website from scratch. 
-                    The website includes an About Us, Projects, Experience, and Contact us Page. 
-                    The website makes use of HTML, CSS, Bootstrap, and jQuery.</li>
-
-
-                </ul>
-                <div class="card-action">
-                  <a aria-label="Visit " href="https://yunjia1.github.io/personal-website/" target="_blank" data-position="top"
-                    data-tooltip="View Online"
-                    class="btn-floating btn-large waves-effect waves-light blue-grey tooltipped"><i
-                      class="fa fa-external-link"></i></a>
-                  <a aria-label="Visit the GitHub repo for  project" href="https://github.com/yunjia1/personal-website"
-                    target="_blank" data-position="top" data-tooltip="View Source"
-                    class="btn-floating btn-large waves-effect waves-light blue-grey tooltipped"><i
-                      class="fa fa-github"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col s12 m6 l4">
-            <div class="card medium">
-              <div class="card-image waves-effect waves-block waves-light">
-                <img alt="quiz app" src="/assets/img/mapper.png" style="height: 100%; width: 100%" class="activator" />
-              </div>
-              <div class="card-content">
-                <span class="card-title activator teal-text hoverline">LastMile - Mapper Application<i
-                    class="mdi-navigation-more-vert right"></i></span>
-                <p>
-                  GIS Mapping Application
-                </p>
-              </div>
-              <div class="card-reveal">
-                <!-- TODO: change this -- only close button -->
-                <!-- <span class="card-title brown-text">Accomplishments<i class="mdi-navigation-close right"></i></span> -->
-                <span class="card-title grey-text"><small>Accomplishments</small><i
-                    class="mdi-navigation-close right"></i></span>
-                <ul>
-                  <li>Fully functional mapper application designed using the ArcGIS API and C++. 
-                    Map uses data structures to organize large amounts of data and displays information such as point of interests, features, transit ways, and more.</li>
-
-                </ul>
-                <div class="card-action">
-                  <a aria-label="Visit " href="https://youtu.be/UZ5nlLaTz7E" target="_blank" data-position="top"
-                    data-tooltip="View Online"
-                    class="btn-floating btn-large waves-effect waves-light blue-grey tooltipped"><i
-                      class="fa fa-external-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- ************* -->
+          <!-- Latest Project -->
+          <div id="latest-project"></div>
+          
+          <!-- More Projects (Initially Hidden) -->
+          <div id="more-projects" style="display: none;"></div>
+        </div>
+        
+        <!-- Load More Button -->
+        <div class="center-align">
+          <button id="load-more" class="btn waves-effect waves-light">Load More</button>
         </div>
       </div>
     </section>
+
+    <script>
+    // Array of projects
+    const projects = [
+      {
+        title: "LastMile - Mapper Application",
+        description: "GIS Mapping Application",
+        image: "/assets/img/mapper.png",
+        accomplishments: [
+          "Fully functional mapper application designed using the ArcGIS API and C++.",
+          "Map uses data structures to organize large amounts of data and displays information such as point of interests, features, transit ways, and more."
+        ],
+        demoLink: "https://youtu.be/UZ5nlLaTz7E",
+        codeLink: "#"
+      },
+      {
+        title: "Personal Website",
+        description: "Personal website made using HTML and CSS",
+        image: "/assets/img/personal-web.png",
+        accomplishments: [
+          "Designed and programmed a personal website from scratch.",
+          "The website includes an About Us, Projects, Experience, and Contact us Page.",
+          "The website makes use of HTML, CSS, Bootstrap, and jQuery."
+        ],
+        demoLink: "https://yunjia1.github.io/personal-website/",
+        codeLink: "https://github.com/yunjia1/personal-website"
+      }
+      // Add more projects here
+    ];
+
+    // Function to create project HTML
+    function createProjectHTML(project) {
+      return `
+        <div class="col s12 m6 l4">
+          <div class="card medium">
+            <div class="card-image waves-effect waves-block waves-light">
+              <img alt="${project.title}" src="${project.image}" style="height: 100%; width: 100%" class="activator" />
+            </div>
+            <div class="card-content">
+              <span class="card-title activator teal-text hoverline">${project.title}<i class="mdi-navigation-more-vert right"></i></span>
+              <p>${project.description}</p>
+            </div>
+            <div class="card-reveal">
+              <span class="card-title grey-text"><small>Accomplishments</small><i class="mdi-navigation-close right"></i></span>
+              <ul>
+                ${project.accomplishments.map(acc => `<li>${acc}</li>`).join('')}
+              </ul>
+              <div class="card-action">
+                <a aria-label="Visit ${project.title}" href="${project.demoLink}" target="_blank" data-position="top" data-tooltip="View Online" class="btn-floating btn-large waves-effect waves-light blue-grey tooltipped"><i class="fa fa-external-link"></i></a>
+                <a aria-label="Visit the GitHub repo for ${project.title} project" href="${project.codeLink}" target="_blank" data-position="top" data-tooltip="View Source" class="btn-floating btn-large waves-effect waves-light blue-grey tooltipped"><i class="fa fa-github"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Function to display projects
+    function displayProjects(start, count) {
+      const latestProjectDiv = document.getElementById('latest-project');
+      const moreProjectsDiv = document.getElementById('more-projects');
+      
+      for (let i = start; i < Math.min(start + count, projects.length); i++) {
+        const projectHTML = createProjectHTML(projects[i]);
+        if (i === 0) {
+          latestProjectDiv.innerHTML = projectHTML;
+        } else {
+          moreProjectsDiv.innerHTML += projectHTML;
+        }
+      }
+      
+      // Show 'Load More' button if there are more projects
+      document.getElementById('load-more').style.display = start + count < projects.length ? 'inline-block' : 'none';
+    }
+
+    // Initial display
+    displayProjects(0, 1);
+
+    // Load More functionality
+    let currentCount = 1;
+    document.getElementById('load-more').addEventListener('click', function() {
+      document.getElementById('more-projects').style.display = 'block';
+      displayProjects(currentCount, 1);
+      currentCount++;
+    });
+    </script>
 
     <!-- Fifth Section: Skills -->
     <section id="skills" class="section scrollspy">
