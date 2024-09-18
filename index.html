@@ -362,18 +362,6 @@
     <script> //Pure JavaScript
     const projects = [
       {
-        title: "LastMile - Mapper Application",
-        description: "GIS Mapping Application",
-        image: "/assets/img/mapper.png",
-        detailed_description: [
-          "Fully functional mapper application designed using the ArcGIS API and C++.",
-          "Map uses data structures to organize large amounts of data and displays information",
-          "such as point of interests, features, transit ways, and more."
-        ],
-        demo: "https://youtu.be/UZ5nlLaTz7E",
-        code: "#"
-      },
-      {
         title: "Personal Website",
         description: "Personal website made using HTML and CSS",
         image: "/assets/img/personal-web.png",
@@ -383,7 +371,21 @@
           "The website makes use of HTML, CSS, Bootstrap, and jQuery."
         ],
         demo: "https://yunjia1.github.io/personal-website/",
-        code: "https://github.com/yunjia1/personal-website"
+        code: "https://github.com/yunjia1/personal-website",
+        dateAdded: "2021-06-10"
+      },
+      {
+        title: "LastMile - Mapper Application",
+        description: "GIS Mapping Application",
+        image: "/assets/img/mapper.png",
+        detailed_description: [
+          "Fully functional mapper application designed using the ArcGIS API and C++.",
+          "Map uses data structures to organize large amounts of data and displays information",
+          "such as point of interests, features, transit ways, and more."
+        ],
+        demo: "https://youtu.be/UZ5nlLaTz7E",
+        code: "#",
+        dateAdded: "2022-04-25"
       }
     ];
     // Function to create project HTML
@@ -397,6 +399,7 @@
             <div class="card-content">
               <span class="card-title activator teal-text hoverline">${project.title}<i class="mdi-navigation-more-vert right"></i></span>
               <p>${project.description}</p>
+              <p><strong>Date Added:</strong> ${new Date(project.dateAdded).toDateString()}</p> <!-- Displaying the date added -->
             </div>
             <div class="card-reveal">
               <span class="card-title grey-text"><small>Detailed Description</small><i class="mdi-navigation-close right"></i></span>
@@ -413,13 +416,19 @@
       `;
     }
 
+    // Function to sort projects by date added (newest first)
+    function sortProjectsByDate() {
+      return projects.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+    }
+
     // Function to display projects
     function displayProjects(start, count) {
+      const sortedProjects = sortProjectsByDate(); // Sorting the projects by date
       const newestProjectDiv = document.getElementById('newest-project');
       const moreProjectsDiv = document.getElementById('more-projects');
       
-      for (let i = start; i < Math.min(start + count, projects.length); i++) {
-        const projectContainer = createProjectContainer(projects[i]);
+      for (let i = start; i < Math.min(start + count, sortedProjects.length); i++) {
+        const projectContainer = createProjectContainer(sortedProjects[i]);
         if (i === 0) {
           newestProjectDiv.innerHTML = projectContainer;
         } else {
@@ -427,7 +436,7 @@
         }
       }
       
-      document.getElementById('load-more').style.display = start + count < projects.length ? 'inline-block' : 'none';
+      document.getElementById('load-more').style.display = start + count < sortedProjects.length ? 'inline-block' : 'none';
     }
     //MAIN JAVASCRIPT BODY
 
