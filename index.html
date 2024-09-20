@@ -401,7 +401,7 @@
         dateAdded: "2024-04-25"
       },
       {
-        title: "def - Mapper Application",
+        title: "LastMile - Mapper Application",
         description: "GIS Mapping Application",
         image: "/assets/img/mapper.png",
         detailed_description: [
@@ -411,16 +411,9 @@
         ],
         demo: "https://youtu.be/UZ5nlLaTz7E",
         code: "#",
-        dateAdded: "2019-06-25"
+        dateAdded: "2022-04-25"
       }
     ];
-    const sortedProjects = projects.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-
-    const initialDisplayCount = 3; 
-    const loadIncrement = 3; 
-
-    let displayCount = 0;
-
     // Function to create project HTML
     function createProjectContainer(project) {
       return `
@@ -448,40 +441,41 @@
         </div>
       `;
     }
-    // Function to display projects
-    function displayProjects() {
-      const projectsContainer = document.getElementById('projects-container');
-      const loadMoreButton = document.getElementById('load-more');
 
-      // Determine the number of projects to display
-      const nextDisplayCount = Math.min(displayCount + loadIncrement, sortedProjects.length);
-      const projectsToDisplay = sortedProjects.slice(displayCount, nextDisplayCount);
-
-      // Append projects to the container
-      projectsToDisplay.forEach(project => {
-        projectsContainer.innerHTML += createProjectContainer(project);
-      });
-
-      // Update the display count
-      displayCount = nextDisplayCount;
-
-      // Control the visibility of the "Load More" button
-      if (displayCount >= sortedProjects.length) {
-        loadMoreButton.style.display = 'none';
-      } else {
-        loadMoreButton.style.display = 'inline-block';
-      }
+    // Function to sort projects by date added (newest first)
+    function sortProjectsByDate() {
+      return projects.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
     }
 
-    // Initial Display
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initial load
-      displayProjects();
+    // Updated function to display projects
+    function displayProjects(start, count) {
+      const sortedProjects = sortProjectsByDate();
+      const projectsContainer = document.getElementById('projects-container');
+      
+      for (let i = start; i < Math.min(start + count, sortedProjects.length); i++) {
+        const projectContainer = createProjectContainer(sortedProjects[i]);
+        projectsContainer.innerHTML += projectContainer;
+      }
+      
+      // Show or hide 'Load More' button based on whether there are more projects to display
+      document.getElementById('load-more').style.display = start + count < sortedProjects.length ? 'inline-block' : 'none';
+    }
 
-      // Event listener for "Load More" button
+    // MAIN JAVASCRIPT BODY
+    document.addEventListener('DOMContentLoaded', function() {
+      const projectsContainer = document.createElement('div');
+      projectsContainer.id = 'projects-container';
+      projectsContainer.className = 'row';
+      document.querySelector('#projects .container').insertBefore(projectsContainer, document.getElementById('load-more').parentNode);
+
+      const totalProjects = projects.length;
+      const initialDisplay = totalProjects > 3 ? 3 : totalProjects;
+
+      displayProjects(0, initialDisplay);
+
       document.getElementById('load-more').addEventListener('click', function() {
-        displayProjects();
-        // Optionally, you can add a smooth scroll or other UX enhancements here
+        const remainingProjects = totalProjects - projectsContainer.children.length;
+        displayProjects(projectsContainer.children.length, remainingProjects);
       });
     });
     </script>
