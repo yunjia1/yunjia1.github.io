@@ -448,31 +448,32 @@
     }
 
     // Function to display projects
-    function displayProjects(start, count) {
+    function displayProjects(start) {
       const sortedProjects = sortProjectsByDate(); // Sorting the projects by date
       const newestProjectDiv = document.getElementById('newest-project');
       const moreProjectsDiv = document.getElementById('more-projects');
-      
-      for (let i = start; i < Math.min(start + count, sortedProjects.length); i++) {
+
+      newestProjectDiv.innerHTML = "";
+      moreProjectsDiv.innerHTML = "";
+
+      for (let i = start; i < sortedProjects.length; i++) {
         const projectContainer = createProjectContainer(sortedProjects[i]);
-        if (i === 0) {
-          newestProjectDiv.innerHTML = projectContainer;
+        if (i < 3) {
+          newestProjectDiv.innerHTML += projectContainer; // First row
         } else {
-          moreProjectsDiv.innerHTML += projectContainer;
+          moreProjectsDiv.innerHTML += projectContainer; // Remaining
         }
       }
-      // Detcides whether to show or hide 'Load More' based on whether there are more projects to display
-      document.getElementById('load-more').style.display = start + count < sortedProjects.length ? 'inline-block' : 'none';
+      document.getElementById('load-more').style.display = 'none';
     }
-    //MAIN JAVASCRIPT BODY
 
-    displayProjects(0, 2); //what is displayed initially - start off with displaying 1 element
+    displayProjects(0); //what is displayed initially - start off with displaying 1 element
 
-    let currentCount = 1;
+    let currentCount = sortedProjects.length < 3 ? sortedProjects.length : 3;
     document.getElementById('load-more').addEventListener('click', function() {
       document.getElementById('more-projects').style.display = 'block';
-      displayProjects(currentCount, 1);
-      currentCount++;
+      displayProjects(currentCount);
+      currentCount = projects.length;
     });
     </script>
 
