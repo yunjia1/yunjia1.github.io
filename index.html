@@ -410,7 +410,6 @@
         dateAdded: "2022-07-25"
       }
     ];
-    // Function to create project HTML
     function createProjectContainer(project) {
       return `
         <div class="col s12 m6 l4">
@@ -421,12 +420,12 @@
             <div class="card-content">
               <span class="card-title activator teal-text hoverline">${project.title}<i class="mdi-navigation-more-vert right"></i></span>
               <p>${project.description}</p>
-              <p><strong>Date Added:</strong> ${new Date(project.dateAdded).toDateString()}</p>
+              <p><strong>Date Added:</strong> ${new Date(project.dateAdded).toDateString()}</p> <!-- Displaying the date added -->
             </div>
             <div class="card-reveal">
               <span class="card-title grey-text"><small>Detailed Description</small><i class="mdi-navigation-close right"></i></span>
               <ul>
-                ${project.detailed_description.map(listItem => `<li>${listItem}</li>`).join('')}
+                ${project.detailed_description.map(acc => `<li>${acc}</li>`).join('')}
               </ul>
               <div class="card-action">
                 <a aria-label="Visit ${project.title}" href="${project.demo}" target="_blank" data-position="top" data-tooltip="View Online" class="btn-floating btn-large waves-effect waves-light blue-grey tooltipped"><i class="fa fa-external-link"></i></a>
@@ -443,36 +442,31 @@
       return projects.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
     }
 
-    // Updated function to display projects
+    // Function to display projects
     function displayProjects(start, count) {
-      const sortedProjects = sortProjectsByDate();
-      const projectsContainer = document.getElementById('projects-container');
+      const sortedProjects = sortProjectsByDate(); // Sorting the projects by date
+      const newestProjectDiv = document.getElementById('newest-project');
+      const moreProjectsDiv = document.getElementById('more-projects');
       
-      for (let i = start; i < Math.min(start + count, sortedProjects.length); i++) {
+      for (let i = start; i < start + count; i++) {
         const projectContainer = createProjectContainer(sortedProjects[i]);
-        projectsContainer.innerHTML += projectContainer;
+        if (i === 0) {
+          newestProjectDiv.innerHTML = projectContainer;
+        } else {
+          moreProjectsDiv.innerHTML += projectContainer;
+        }
       }
       
-      // Show or hide 'Load More' button based on whether there are more projects to display
       document.getElementById('load-more').style.display = start + count < sortedProjects.length ? 'inline-block' : 'none';
     }
+    //MAIN JAVASCRIPT BODY
+    displayProjects(0, 1); //what is displayed initially
 
-    // MAIN JAVASCRIPT BODY
-    document.addEventListener('DOMContentLoaded', function() {
-      const projectsContainer = document.createElement('div');
-      projectsContainer.id = 'projects-container';
-      projectsContainer.className = 'row';
-      document.querySelector('#projects .container').insertBefore(projectsContainer, document.getElementById('load-more').parentNode);
-
-      const totalProjects = projects.length;
-      const initialDisplay = totalProjects > 3 ? 3 : totalProjects;
-
-      displayProjects(0, initialDisplay);
-
-      document.getElementById('load-more').addEventListener('click', function() {
-        const remainingProjects = totalProjects - projectsContainer.children.length;
-        displayProjects(projectsContainer.children.length, remainingProjects);
-      });
+    let currentCount = 1;
+    document.getElementById('load-more').addEventListener('click', function() {
+      document.getElementById('more-projects').style.display = 'block';
+      displayProjects(currentCount, projects.length-1);
+      currentCount+=projects.length-1;
     });
     </script>
 
